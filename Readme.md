@@ -13,13 +13,28 @@ chosen: Gradle-Kotlin, Java 11, Spring Boot 3, Spring Web
 
 ## How to run
 
+```powershell
+demo> ./gradlew bootRun
+You may update build.gradle.kts to change parameters.
 ```
-mvn spring-boot:run
+
+```powershell
+demo\build\libs> java -jar .\demo-0.0.1-SNAPSHOT.jar
+Update the jar file name to the actual one.
+```
+
+```vs code
+Run class DemoApplication via gui.
 ```
 
 ## How to test
 
-```
-mvn test
+```powershell
+./gradlew test
 ```
 
+## How to build
+
+```powershell
+ ./gradlew build
+```
