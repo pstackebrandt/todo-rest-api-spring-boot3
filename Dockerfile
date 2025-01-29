@@ -2,7 +2,7 @@
 # 1) Builder stage
 # -----------------------
     # earlier used: gradle:7.6.1-jdk17-alpine - Builds failed
-    FROM gradle:7.6.1-jdk17 AS builder
+    FROM gradle:8.11.1-jdk21-corretto AS builder
     WORKDIR /app
     
     # Copy all files to the container
@@ -14,7 +14,8 @@
     # -----------------------
     # 2) Run stage
     # -----------------------
-    FROM openjdk:17-alpine
+    #current latest: amazoncorretto:21.0.6-alpine
+    FROM amazoncorretto:21.0.6-alpine
     WORKDIR /app
     
     # Copy the built JAR file from the builder stage

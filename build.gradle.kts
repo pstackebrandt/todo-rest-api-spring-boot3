@@ -9,7 +9,7 @@ version = "0.6.0"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -30,7 +30,7 @@ tasks.withType<JavaCompile> {
 	// dependencies from breaking your build. Those dependencies must be
 	// pinned to versions that support Java 17 or you’ll hit a “class 
 	// file major version” mismatch.
-    options.compilerArgs.addAll(listOf("--release", "17"))
+    options.compilerArgs.addAll(listOf("--release", "21"))
 }
 
 tasks.withType<Test> {
