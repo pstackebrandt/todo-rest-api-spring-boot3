@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.todo;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
+// I will remove this controller later. It currently serves as test.
 @RestController
 public class HelloController {
 

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.example"
-version = "1.0.0_greet_service"
+version = "0.6.0"
 
 java {
 	toolchain {
