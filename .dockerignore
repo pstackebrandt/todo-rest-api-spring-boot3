@@ -1,0 +1,18 @@
+# Ignore Gradle build files
+.gradle
+build/
+
+# Ignore IDE-specific files
+.vscode/
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Ignore other unnecessary files
+HELP.md
+
+# Optionally ignore other files such as .git directory 
+# if you don't want to include source control inside the container
+.git
+.gitignore

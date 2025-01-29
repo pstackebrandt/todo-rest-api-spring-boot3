@@ -9,7 +9,7 @@ version = "0.6.0"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -21,6 +21,16 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+
+tasks.withType<JavaCompile> {
+	// This won't help much.
+	// It won’t prevent incompatible or newer (Java 21) third-party 
+	// dependencies from breaking your build. Those dependencies must be
+	// pinned to versions that support Java 17 or you’ll hit a “class 
+	// file major version” mismatch.
+    options.compilerArgs.addAll(listOf("--release", "21"))
 }
 
 tasks.withType<Test> {
