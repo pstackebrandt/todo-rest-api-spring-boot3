@@ -8,25 +8,35 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/todos")
 public class TodoListApiController {
-    private List<String> todos = new ArrayList<>();
+    private List<Todo> todos = new ArrayList<>();
 
     // curl http://localhost:8080/todos
     @GetMapping
-    public List<String> getTodos() {
+    public List<Todo> getTodos() {
         return todos;
     }
 
     // curl http://localhost:8080/todos/0
     @GetMapping("/{index}")
     public String getTodo(@PathVariable int index) {
-        return todos.get(index);
+        return todos
+                .get(index)
+                .getTodo();
     }
 
-    // curl -X POST -H "Content-Type: application/json" -d '{"todo":"Buy milk"}' http://localhost:8080/todos
-    // curl -X POST -H "Content-Type: application/json" -d '{"todo":"Get child from school"}' http://localhost:8080/todos
-    // curl -X POST -H "Content-Type: application/json" -d '{"todo":"Get to bed early"}' http://localhost:8080/todos
+    // The following commands don't work with my current setup of vs code. 
+    // They should suppress the introduction of line-breaks by auto-formatter.
+    // formatter:off
+    // prettier-ignore
+    /*
+    curl -X POST -H "Content-Type: application/json" -d '{"todo":"Buy milk"}' http://localhost:8080/todos
+    curl -X POST -H "Content-Type: application/json" -d '{"todo":"Get child from school"}' http://localhost:8080/todos
+    curl -X POST -H "Content-Type: application/json" -d '{"todo":"Get to bed early"}' http://localhost:8080/todos
+    */
+    // formatter:on
+
     @PostMapping
-    public void addTodo(@RequestBody String todo) {
+    public void addTodo(@RequestBody Todo todo) {
         todos.add(todo);
     }
 
@@ -35,4 +45,4 @@ public class TodoListApiController {
     public void deleteTodo(@PathVariable int index) {
         todos.remove(index);
     }
-} 
+}
