@@ -23,6 +23,16 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+
+tasks.withType<JavaCompile> {
+	// This won't help much.
+	// It won’t prevent incompatible or newer (Java 21) third-party 
+	// dependencies from breaking your build. Those dependencies must be
+	// pinned to versions that support Java 17 or you’ll hit a “class 
+	// file major version” mismatch.
+    options.compilerArgs.addAll(listOf("--release", "17"))
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }

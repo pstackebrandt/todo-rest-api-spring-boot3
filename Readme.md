@@ -6,6 +6,20 @@ This is a simple training project orientend on the book "Spring Boot 3" by dpunk
 
 - see pp. 8-18 (Spring Boot app setup)
 - see chapter 9 (REST API)
+
+## Publishing and Hosting
+
+I want to publish this project in a docker container.
+At first I want to test it locally.
+Later I want to publish it with Render for free.
+Render will get the content from my github repository.
+I want to start mit a simple but rather small jdk image. I will stay with Java 17 for now.
+
+### Build docker image
+
+```powershell
+ docker build -t todo-list-api .
+ ```
   
 ## Creation of the project
 
