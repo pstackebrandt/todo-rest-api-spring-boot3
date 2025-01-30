@@ -10,9 +10,16 @@ This is a simple training project.
 
 ## Publishing and Hosting
 
-I want to publish with Render for free.
-Thats why I want to start mit a simple but rather small jdk image.
-Render will get the content from my github repository.
+I published it with Render for free. The api will be deactivated automatically by Render and may need 50 seconds (!) or more to answer until it is automa automatically reactivated. 
+
+Address of the published API (currently no (error) page at that address):
+https://todo-rest-api-spring-boot3.onrender.com
+
+Call that returns the todos list:
+https://todo-rest-api-spring-boot3.onrender.com/todos
+
+Render gets the content from the main branch of my github repository. 
+I used a jdk image of middle size (relative to other other spring boot jdk images).
 
 ## Creation of the project
 
