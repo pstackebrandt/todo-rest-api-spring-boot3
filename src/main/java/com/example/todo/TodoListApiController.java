@@ -1,6 +1,7 @@
 package com.example.todo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @RequestMapping("/todos")
 public class TodoListApiController {
 
-    private final List<Todo> todos = new ArrayList<>();
+    private final List<Todo> todos;
 
     public TodoListApiController() {
-        todos.add(new Todo("Find a good book about AI usage"));
-        todos.add(new Todo("Play a funny game with your daughter"));
-        todos.add(new Todo("Get to bed more early"));
+        this(getDefaultTodos());
+    }
+
+    public TodoListApiController(List<Todo> initialTodos) {
+        this.todos = new ArrayList<>(initialTodos);
+    }
+
+    private static List<Todo> getDefaultTodos() {
+        return Arrays.asList(
+                new Todo("Find a good book about AI usage"),
+                new Todo("Play a funny game with your daughter"),
+                new Todo("Get to bed more early")
+        );
     }
 
     /*
