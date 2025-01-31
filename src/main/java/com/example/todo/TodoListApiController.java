@@ -15,6 +15,12 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class TodoListApiController {
     private List<Todo> todos = new ArrayList<>();
 
+    public TodoListApiController() {
+        todos.add(new Todo("Find a good book about AI usage"));
+        todos.add(new Todo("Play a funny game with your daughter"));
+        todos.add(new Todo("Get to bed more early"));
+    }
+
     /* 
      * Get all todos
      *  curl http://localhost:8080/todos
