@@ -5,8 +5,10 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
+val projectVersion = "0.7.0"
+
 group = "com.example"
-version = "0.6.0"
+version = projectVersion
 
 java {
 	toolchain {
@@ -21,6 +23,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

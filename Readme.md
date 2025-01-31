@@ -21,13 +21,13 @@ The OpenAPI documentation is available at:
 
 ## Publishing and Hosting
 
-I published it with Render for free. The api will be deactivated automatically by Render and may need 50 seconds (!) or more to answer until it is automa automatically reactivated. 
+I published it with Render for free. The api will be deactivated automatically by Render and may need 50 seconds (!) or more to answer until it is automa automatically reactivated.
 
 Address of the published API (currently no (error) page at that address):
-https://todo-rest-api-spring-boot3.onrender.com
+<https://todo-rest-api-spring-boot3.onrender.com>
 
 Call that returns the todos list:
-https://todo-rest-api-spring-boot3.onrender.com/todos
+<https://todo-rest-api-spring-boot3.onrender.com/todos>
 
 Render gets the content from the main branch of my github repository. 
 I used a jdk image of middle size (relative to other other spring boot jdk images).
@@ -48,23 +48,17 @@ todo-list-api> ./gradlew bootRun
 You may update build.gradle.kts to change parameters.
 ```
 
-### Run project with jar file
+### Run (and build)project with jar file
 
 Update the jar file name to the actual one.
 
 ```powershell
-todo-list-api\build\libs> java -jar .\todo-list-api-0.6.0.jar
+todo-list-api\build\libs> java -jar .\todo-list-api-0.7.0.jar
 ```
 
 ### Run project with vs code
 
 Run class TodoListApiApplication via gui.
-
-### Run docker image
-
-```powershell
-docker run -p 8080:8080 todo-list-api
-```
 
 ## Build project
 
@@ -72,8 +66,24 @@ docker run -p 8080:8080 todo-list-api
  ./gradlew build
 ```
 
-## Build docker image
+## Use Docker
+
+### Build and run docker image with version and name, remove container and image on exit
 
 ```powershell
- docker build -t todo-list-api .
- ```
+docker build -t todo-list-api:0.7.0 .
+docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
+```
+
+### Run docker image with version and name, remove container and image on exit
+
+```powershell
+docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
+```
+
+
+### Run docker image with version and name
+
+```powershell
+docker run -p 8080:8080 --name todo-list-api-0.7.0 todo-list-api:0.7.0
+```

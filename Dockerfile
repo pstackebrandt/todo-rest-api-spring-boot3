@@ -19,7 +19,8 @@
     WORKDIR /app
     
     # Copy the built JAR file from the builder stage
-    COPY --from=builder /app/build/libs/todo-list-api-0.6.0.jar app.jar
+    ARG VERSION=0.7.0
+    COPY --from=builder /app/build/libs/todo-list-api-${VERSION}.jar app.jar
     
     # Expose the port that Spring Boot runs on
     EXPOSE 8080
