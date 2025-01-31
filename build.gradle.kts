@@ -1,6 +1,7 @@
 plugins {
 	java
 	id("org.springframework.boot") version "3.4.2"
+	// A Gradle plugin that provides Maven-like dependency management functionality
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -19,17 +20,16 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 
 tasks.withType<JavaCompile> {
-	// This won't help much.
-	// It won’t prevent incompatible or newer (Java 21) third-party 
-	// dependencies from breaking your build. Those dependencies must be
-	// pinned to versions that support Java 17 or you’ll hit a “class 
-	// file major version” mismatch.
+	// This supports the detection of incompatible
+	// third-party dependencies. But it may not help much in 
+	// addition to the toolchain configuration.
     options.compilerArgs.addAll(listOf("--release", "21"))
 }
 

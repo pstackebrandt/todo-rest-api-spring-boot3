@@ -1,12 +1,23 @@
 # TODO list rest api with Spring Boot 3 from book "Spring Boot 3" by dpunkt
 
-## Purpose
+## Overview
+
+This project is a simple TODO list API designed to practice using Spring Boot and Docker. It leverages REST API and OpenAPI for documentation. The application is hosted for free on Render, which may deactivate the service when idle. Reactivation can take up to 50 seconds.
+
+## Purpose and features
 
 This is a simple training project.  
 
 - Create a simple rest api with Spring Boot 3
+- Use Gradle with kotlin DSL for building
+- Use OpenAPI for documentation
 - Publish it in a docker container locally
 - Publish it with Render
+
+## Online OpenAPI documentation
+
+The OpenAPI documentation is available at:
+<https://todo-rest-api-spring-boot3.onrender.com/swagger-ui/index.html>
 
 ## Publishing and Hosting
 
