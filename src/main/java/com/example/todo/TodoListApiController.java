@@ -61,10 +61,14 @@ public class TodoListApiController {
     @Operation(summary = "Get a specific todo", description = "Returns a todo by its index")
     @ApiResponse(responseCode = "200", description = "Successful retrieval of todo", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
     @GetMapping("/{index}")
-    public String getTodo(@PathVariable int index) {
-        return todos
-                .get(index)
-                .getTodo();
+    public ResponseEntity<String> getTodo(@PathVariable int index) {
+        try {
+            return ResponseEntity.ok(todos.get(index).getTodo());
+        } catch (IndexOutOfBoundsException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Todo with index " + index + " not found");
+        }
     }
 
     /*

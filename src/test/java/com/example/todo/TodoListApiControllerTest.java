@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,5 +40,19 @@ class TodoListApiControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].todo").value("Test todo 1"))
                 .andExpect(jsonPath("$[1].todo").value("Test todo 2"));
+    }
+
+    @Test
+    void getTodo_WithValidIndex_ShouldReturnTodo() throws Exception {
+        mockMvc.perform(get("/todos/0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Test todo 1"));
+    }
+
+    @Test
+    void getTodo_WithInvalidIndex_ShouldReturn404() throws Exception {
+        mockMvc.perform(get("/todos/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Todo with index 999 not found"));
     }
 }
