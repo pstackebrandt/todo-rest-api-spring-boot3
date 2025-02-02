@@ -26,8 +26,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testRuntimeOnly("org.mockito:mockito-inline:5.2.0")
 }
-
 
 tasks.withType<JavaCompile> {
 	// This supports the detection of incompatible
@@ -38,4 +38,16 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+		events("passed", "skipped", "failed")
+		showStandardStreams = true
+		showExceptions = true
+		showCauses = true
+		showStackTraces = true
+	}
+	
+	jvmArgs(
+		"-XX:+EnableDynamicAgentLoading",
+		"-Djdk.instrument.traceUsage=false"
+	)
 }

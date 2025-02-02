@@ -1,7 +1,5 @@
 package com.example.todo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,33 +12,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.todo.model.Todo;
+import com.example.todo.service.TodoService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-//import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 // curl http://localhost:8080/todos
 @RestController
 @RequestMapping("/todos")
 public class TodoListApiController {
 
-    private final List<Todo> todos;
+    private final TodoService todoService;
 
-    public TodoListApiController() {
-        this(getDefaultTodos());
-    }
-
-    public TodoListApiController(List<Todo> initialTodos) {
-        this.todos = new ArrayList<>(initialTodos);
-    }
-
-    private static List<Todo> getDefaultTodos() {
-        return Arrays.asList(
-                new Todo("Find a good book about AI usage"),
-                new Todo("Play a funny game with your daughter"),
-                new Todo("Get to bed more early")
-        );
+    public TodoListApiController(TodoService todoService) {
+        this.todoService = todoService;
     }
 
     /*
@@ -51,7 +39,7 @@ public class TodoListApiController {
     @ApiResponse(responseCode = "200", description = "Successful retrieval of todos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Todo.class)))
     @GetMapping
     public List<Todo> getTodos() {
-        return todos;
+        return todoService.getAllTodos();
     }
 
     /*
@@ -63,7 +51,7 @@ public class TodoListApiController {
     @GetMapping("/{index}")
     public ResponseEntity<String> getTodo(@PathVariable int index) {
         try {
-            return ResponseEntity.ok(todos.get(index).getTodo());
+            return ResponseEntity.ok(todoService.getTodo(index));
         } catch (IndexOutOfBoundsException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -79,6 +67,7 @@ public class TodoListApiController {
      */
     @Operation(summary = "Add a new todo", description = "Adds a new todo to the list")
     @ApiResponse(responseCode = "201", description = "Todo successfully added")
+    @ApiResponse(responseCode = "400", description = "Invalid todo provided")
     @PostMapping
     public ResponseEntity<String> addTodo(
             @RequestBody // Spring annotation for binding
@@ -88,15 +77,16 @@ public class TodoListApiController {
                     content = @Content(
                             schema = @Schema(
                                     implementation = Todo.class))) Todo todo) {
-        if (todo.getTodo() == null || todo.getTodo().trim().isEmpty()) {
+        try {
+            todoService.addTodo(todo);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("Todo successfully added");
+        } catch (IllegalArgumentException e) {
             return ResponseEntity
                     .badRequest()
-                    .body("A todo description is required and must not be empty.");
+                    .body(e.getMessage());
         }
-        todos.add(todo);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body("Todo successfully added");
     }
 
     /*
@@ -107,6 +97,6 @@ public class TodoListApiController {
     @ApiResponse(responseCode = "204", description = "Todo successfully deleted")
     @DeleteMapping("/{index}")
     public void deleteTodo(@PathVariable int index) {
-        todos.remove(index);
+        todoService.deleteTodo(index);
     }
 }

@@ -1,10 +1,14 @@
-package com.example.todo;
+package com.example.todo.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Represents a single todo item.
+ */
 @Schema(description = "Represents a single todo item")
 public class Todo {
     @Schema(description = "The description of the todo item", example = "Buy a linux book")
+
     private String todo;
 
     public Todo() {} // needed for JSON deserialization

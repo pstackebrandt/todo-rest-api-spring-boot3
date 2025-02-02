@@ -29,7 +29,7 @@ Address of the published API (currently no (error) page at that address):
 Call that returns the todos list:
 <https://todo-rest-api-spring-boot3.onrender.com/todos>
 
-Render gets the content from the main branch of my github repository. 
+Render gets the content from the main branch of my github repository.
 I used a jdk image of middle size (relative to other other spring boot jdk images).
 
 ## Creation of the project
@@ -66,6 +66,24 @@ Run class TodoListApiApplication via gui.
  ./gradlew build
 ```
 
+## Run tests
+
+### Run tests with gradle
+
+```powershell
+ ./gradlew test
+```
+
+### Clean up test results and run tests with gradle
+
+```powershell
+ ./gradlew clean test
+```
+
+### Run tests with vs code
+
+Run class e.g. TodoListApiApplicationTests via gui.
+
 ## Use Docker
 
 ### Build and run docker image with version and name, remove container and image on exit
@@ -80,7 +98,6 @@ docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
 ```powershell
 docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
 ```
-
 
 ### Run docker image with version and name
 
