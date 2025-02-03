@@ -1,0 +1,14 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    
+    "rest-client.environmentVariables": {
+        "$shared": {},
+        "local": {
+            "baseUrl": "http://localhost:8080"
+        },
+        "remote": {
+            "baseUrl": "https://todo-rest-api-spring-boot3.onrender.com"
+        }
+    }
+}

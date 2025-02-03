@@ -1,0 +1,45 @@
+/* 
+This file contains HTTP requests to the TODO API locally or remotely.
+Use the REST Client extension for Visual Studio Code to send these requests.
+Before sending, use the REST Client's environment picker to select either 'local' or 'remote', which will set the value of {{baseUrl}} for the requests. (For first time use, you must enter 'local' or 'remote' into vs studios input box. After that, you can select them.)
+For VS Code you can set the environment variables in .vscode/settings.json.
+(Use of a file .httpclient.env.json didn't work.):
+*/
+
+### Get all todos
+GET {{baseUrl}}/todos
+Accept: application/json
+
+### Run swagger ui
+GET {{baseUrl}}/swagger-ui/index.html
+
+### Get a specific todo
+GET {{baseUrl}}/todos/3
+Accept: text/plain
+
+### Add a new valid todo
+POST {{baseUrl}}/todos
+Content-Type: application/json
+
+{
+  "todo": "Test todo 3"
+}
+
+### Add an empty todo (Expect error)
+POST {{baseUrl}}/todos
+Content-Type: application/json
+
+{
+  "todo": ""
+}
+
+### Add a todo with too short description (Expect error)
+POST {{baseUrl}}/todos
+Content-Type: application/json
+
+{
+  "todo": "hi"
+}
+
+### Delete a todo
+DELETE {{baseUrl}}/todos/2
