@@ -10,6 +10,11 @@ For VS Code you can set the environment variables in .vscode/settings.json.
 GET {{baseUrl}}/todos
 Accept: application/json
 
+### Try to call wrong endpoint (Expect error)
+GET {{baseUrl}}/todowrongendpoint
+Accept: application/json
+
+
 ### Run swagger ui
 GET {{baseUrl}}/swagger-ui/index.html
 
@@ -52,5 +57,8 @@ Content-Type: application/json
 ### Delete a todo
 DELETE {{baseUrl}}/todos/2
 
-### Try t a not existing todo (Expect error)
+### Try to delete a not existing todo (Expect error)
 DELETE {{baseUrl}}/todos/99
+
+### Try to delete a todo with wrong parameter type (Expect error)
+DELETE {{baseUrl}}/todos/three
