@@ -11,6 +11,7 @@ build/
 
 # Ignore other unnecessary files
 HELP.md
+docs/
 
 # Optionally ignore other files such as .git directory 
 # if you don't want to include source control inside the container
