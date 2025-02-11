@@ -26,17 +26,28 @@ public class TodoService {
         return todos;
     }
 
-    public String getTodo(int index) {
+    /**
+     * Get a todo by its index
+     *
+     * @param index
+     * @return the todo object
+     */
+    public Todo getTodo(int index) {
         validateIndex(index);
-        return todos.get(index).getTodo();
+        return todos.get(index);
     }
 
+    /**
+     * Add a todo to the list.
+     *
+     * Since the Todo object is already validated (via the DTO and in the Todo
+     * constructor), this method only performs a null check.
+     *
+     * @param todo the Todo to add
+     */
     public void addTodo(Todo todo) {
-        if (todo.getTodo() == null || todo.getTodo().trim().isEmpty()) {
-            throw new IllegalArgumentException("A todo description is required and must not be empty.");
-        } else if (todo.getTodo().length() < MIN_TODO_LENGTH) {
-            throw new IllegalArgumentException(
-                    String.format("Todo description must be at least %d characters long.", MIN_TODO_LENGTH));
+        if (todo == null) {
+            throw new IllegalArgumentException("Todo cannot be null");
         }
         todos.add(todo);
     }

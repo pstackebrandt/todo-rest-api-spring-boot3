@@ -1,0 +1,13 @@
+   ---
+   description: TODO API - Endpoints Return JSON
+   globs:
+   ---
+
+   # Rule: Endpoints Must Return JSON
+
+   All endpoints of the TODO API must return responses in JSON format. This rule applies to:
+   
+   - **Successful responses:** Always include the header `Content-Type: application/json`.
+   - **Error responses:** Do not return plain text; instead, follow the defined JSON error schema.
+
+   **Example Error Response:**
