@@ -5,10 +5,8 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-val projectVersion = "0.7.0"
-
 group = "com.example"
-version = projectVersion
+version = project.property("version") as String
 
 java {
 	toolchain {
@@ -51,4 +49,51 @@ tasks.withType<Test> {
 		"-XX:+EnableDynamicAgentLoading",
 		"-Djdk.instrument.traceUsage=false"
 	)
+}
+
+tasks.named<ProcessResources>("processResources") {
+    filesMatching("**/application.properties") {
+        expand(project.properties)
+    }
+}
+
+// Task to update the Dockerfile with the current version from gradle.properties
+tasks.register("updateDockerfile") {
+    doLast {
+        val dockerFile = file("Dockerfile")
+        if (!dockerFile.exists()) {
+            println("Dockerfile not found!")
+            return@doLast
+        }
+        // Use a regular expression to replace the existing ARG VERSION line with the new version
+        val updatedContent = dockerFile.readText().replace(Regex("ARG\\s+VERSION=.*")) {
+            "ARG VERSION=${project.version}"
+        }
+        dockerFile.writeText(updatedContent)
+        println("Dockerfile updated with version ${project.version}")
+    }
+}
+
+// Task to update a version badge in your README (if you have one)
+tasks.register("updateReadmeBadge") {
+    doLast {
+        val readmeFile = file("Readme.md")
+        if (!readmeFile.exists()) {
+            println("Readme.md not found!")
+            return@doLast
+        }
+        // Example: update a badge of the form:
+        // ![version badge](https://img.shields.io/badge/version-OLD_VERSION-blue)
+        val regex = Regex("(!\\[version badge\\]\\(https://img\\.shields\\.io/badge/version-)[^-]+(-blue\\))")
+        val updatedContent = readmeFile.readText().replace(regex) {
+            "${it.groupValues[1]}${project.version}${it.groupValues[2]}"
+        }
+        readmeFile.writeText(updatedContent)
+        println("Readme.md badge updated with version ${project.version}")
+    }
+}
+
+// Group task that runs all update scripts
+tasks.register("updateVersionNumberUsages") {
+    dependsOn("updateDockerfile") //, "updateReadmeBadge")
 }
