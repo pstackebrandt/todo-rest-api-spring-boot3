@@ -14,7 +14,6 @@ Accept: application/json
 GET {{baseUrl}}/todowrongendpoint
 Accept: application/json
 
-
 ### Run swagger ui
 GET {{baseUrl}}/swagger-ui/index.html
 
@@ -44,6 +43,14 @@ Content-Type: application/json
 
 {
   "todo": ""
+}
+
+### Try to add an empty todo (Expect error)
+POST {{baseUrl}}/todos
+Content-Type: application/json
+
+{
+  "todo": null
 }
 
 ### Try to add a todo with too short description (Expect error)

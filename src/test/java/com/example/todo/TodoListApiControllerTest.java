@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.example.todo.model.Todo;
-import com.example.todo.service.TodoService;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.example.todo.exception.GlobalExceptionHandler;
+import com.example.todo.model.Todo;
+import com.example.todo.service.TodoService;
 
 @WebMvcTest(TodoListApiController.class)
 @ContextConfiguration(classes = TodoListApiControllerTest.TestConfig.class)
@@ -28,6 +28,7 @@ class TodoListApiControllerTest {
     private MockMvc mockMvc;
 
     @Configuration
+    @Import(GlobalExceptionHandler.class) // Import the GlobalExceptionHandler as part of the test context.
     static class TestConfig {
 
         @Bean
@@ -35,6 +36,8 @@ class TodoListApiControllerTest {
             return new TodoService(Arrays.asList(
                     new Todo("Test todo 1"),
                     new Todo("Test todo 2")
+            // We decided to use a specific number of todos for testing.
+            // This is independent of the number of todos in the initial state of the published API. The initial state of the API may change independently.
             ));
         }
 
@@ -57,27 +60,36 @@ class TodoListApiControllerTest {
     void getTodo_WithValidIndex_ShouldReturnTodo() throws Exception {
         mockMvc.perform(get("/todos/0"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Test todo 1"));
+                .andExpect(jsonPath("$.todo").value("Test todo 1"));
     }
 
     @Test
     void getTodo_WithInvalidIndex_ShouldReturn404() throws Exception {
-        mockMvc.perform(get("/todos/999"))
+        mockMvc.perform(get("/todos/99"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Todo with index 999 not found"));
+                .andExpect(jsonPath("$.error").value("Not Found"))
+                .andExpect(jsonPath("$.message").isNotEmpty());
     }
 
     @Test
     void addTodo_WithValidTodo_ShouldAddTodoAndReturn201() throws Exception {
+
+        // Get the number of todos before adding a new one
+        mockMvc.perform(get("/todos"))
+                .andExpect(jsonPath("$.length()")
+                        .value(2));
+
+        // Add a new todo
         mockMvc.perform(post("/todos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"todo\": \"Test todo 3\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("Todo successfully added"));
+                .andExpect(status().isCreated());
 
         mockMvc.perform(get("/todos"))
-                .andExpect(jsonPath("$.length()").value(3))
-                .andExpect(jsonPath("$[2].todo").value("Test todo 3"));
+                .andExpect(jsonPath("$.length()")
+                        .value(3))
+                .andExpect(jsonPath("$[2].todo")
+                        .value("Test todo 3"));
     }
 
     @Test
@@ -85,8 +97,8 @@ class TodoListApiControllerTest {
         mockMvc.perform(post("/todos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"todo\": \"\"}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("A todo description is required and must not be empty."));
+                .andExpect(jsonPath("$.message").isNotEmpty())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -94,18 +106,17 @@ class TodoListApiControllerTest {
         mockMvc.perform(post("/todos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"todo\": null}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("A todo description is required and must not be empty."));
+                .andExpect(jsonPath("$.message").isNotEmpty())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     void addTodo_WithTodoShorterThanMinLength_ShouldReturn400() throws Exception {
-        mockMvc.perform(post("/todos")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"todo\": \"hi\"}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("Todo description must be at least %d characters long.",
-                                TodoService.MIN_TODO_LENGTH)));
+        mockMvc.perform(
+                post("/todos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"todo\": \"hi\"}"))
+                .andExpect(jsonPath("$.message").isNotEmpty())
+                .andExpect(status().isBadRequest());
     }
 }
