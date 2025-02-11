@@ -20,7 +20,7 @@ FROM amazoncorretto:21.0.6-alpine
 WORKDIR /app
 
 # Accept the version argument to locate the built JAR file.
-ARG VERSION=0.8.0
+ARG VERSION=0.8.1
 # Copy the built JAR file from the builder stage into the runtime image.
 COPY --from=builder /app/build/libs/todo-list-api-${VERSION}.jar app.jar
 

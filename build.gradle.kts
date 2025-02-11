@@ -58,7 +58,7 @@ tasks.named<ProcessResources>("processResources") {
 }
 
 // Task to update the Dockerfile with the current version from gradle.properties
-tasks.register("updateDockerfile") {
+tasks.register("updateVersionInDockerfile") {
     doLast {
         val dockerFile = file("Dockerfile")
         if (!dockerFile.exists()) {
@@ -75,16 +75,20 @@ tasks.register("updateDockerfile") {
 }
 
 // Task to update a version badge in your README (if you have one)
-tasks.register("updateReadmeBadge") {
+tasks.register("updateReadmeVersionBadge") {
     doLast {
         val readmeFile = file("Readme.md")
         if (!readmeFile.exists()) {
             println("Readme.md not found!")
             return@doLast
         }
-        // Example: update a badge of the form:
-        // ![version badge](https://img.shields.io/badge/version-OLD_VERSION-blue)
-        val regex = Regex("(!\\[version badge\\]\\(https://img\\.shields\\.io/badge/version-)[^-]+(-blue\\))")
+        // Updated regex:
+        // - Uses IGNORE_CASE to match [Version] (or [version])
+        // - Matches an optional ".svg" in the suffix
+        val regex = Regex(
+            "(!\\[version\\]\\(https://img\\.shields\\.io/badge/version-)[^-]+(-blue(?:\\.svg)?\\))",
+            RegexOption.IGNORE_CASE
+        )
         val updatedContent = readmeFile.readText().replace(regex) {
             "${it.groupValues[1]}${project.version}${it.groupValues[2]}"
         }
@@ -95,5 +99,5 @@ tasks.register("updateReadmeBadge") {
 
 // Group task that runs all update scripts
 tasks.register("updateVersionNumberUsages") {
-    dependsOn("updateDockerfile") //, "updateReadmeBadge")
+    dependsOn("updateVersionInDockerfile", "updateReadmeVersionBadge")
 }

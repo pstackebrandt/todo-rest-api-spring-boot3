@@ -1,5 +1,9 @@
 # TODO list rest api with Spring Boot 3 from book "Spring Boot 3" by dpunkt
 
+[![Version](https://img.shields.io/badge/version-0.8.1-blue.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/releases)
+
+[![Issues](https://img.shields.io/github/issues/pstackebrandt/todo-rest-api-spring-boot3.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/issues)
+
 ## Overview
 
 This project is a simple TODO list API designed to practice using Spring Boot and Docker. It leverages REST API and OpenAPI for documentation. The application is hosted for free on Render, which may deactivate the service when idle. Reactivation can take up to 50 seconds.
