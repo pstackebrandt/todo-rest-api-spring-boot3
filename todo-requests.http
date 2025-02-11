@@ -1,31 +1,32 @@
 /* 
-This file contains HTTP requests to the TODO API locally or remotely.
+This file contains HTTP requests to the Todo API, either locally or remotely.
 Use the REST Client extension for Visual Studio Code to send these requests.
-Before sending, use the REST Client's environment picker to select either 'local' or 'remote', which will set the value of {{baseUrl}} for the requests. (For first time use, you must enter 'local' or 'remote' into vs studios input box. After that, you can select them.)
-For VS Code you can set the environment variables in .vscode/settings.json.
-(Use of a file .httpclient.env.json didn't work.):
+Before sending, use the REST Client's environment picker to select either 'local' or 'remote', which sets the value of {{baseUrl}} for the requests.
+For first-time use, you must enter 'local' or 'remote' into VS Code's input box. After that, you can select them.
+For VS Code, you can set the environment variables in .vscode/settings.json.
+(Use of a file .httpclient.env.json didn't work.)
 */
 
 ### Get all todos
 GET {{baseUrl}}/todos
 Accept: application/json
 
-### Try to call wrong endpoint (Expect error)
+### Try to call an invalid endpoint (Expect error)
 GET {{baseUrl}}/todowrongendpoint
 Accept: application/json
 
-### Run swagger ui
+### Access Swagger UI
 GET {{baseUrl}}/swagger-ui/index.html
 
-### Get an existing todo
+### Get an existing todo (first todo)
 GET {{baseUrl}}/todos/0
 Accept: application/json
 
-### Call a not existing todo (Expect error)
+### Get a non-existent todo (Expect error)
 GET {{baseUrl}}/todos/99
 Accept: application/json
 
-### Call a with wrong accept header (plain text) (Expect error)
+### Get a todo with a wrong Accept header (Expect error)
 GET {{baseUrl}}/todos/3
 Accept: text/plain
 
@@ -37,7 +38,7 @@ Content-Type: application/json
   "todo": "Test todo 3"
 }
 
-### Try to add an empty todo (Expect error)
+### Try to add an empty todo string (Expect error)
 POST {{baseUrl}}/todos
 Content-Type: application/json
 
@@ -45,7 +46,7 @@ Content-Type: application/json
   "todo": ""
 }
 
-### Try to add an empty todo (Expect error)
+### Try to add a null todo (Expect error)
 POST {{baseUrl}}/todos
 Content-Type: application/json
 
@@ -53,7 +54,7 @@ Content-Type: application/json
   "todo": null
 }
 
-### Try to add a todo with too short description (Expect error)
+### Try to add a todo with a too-short description (minimum 5 characters required) (Expect error)
 POST {{baseUrl}}/todos
 Content-Type: application/json
 
@@ -64,8 +65,8 @@ Content-Type: application/json
 ### Delete a todo
 DELETE {{baseUrl}}/todos/2
 
-### Try to delete a not existing todo (Expect error)
+### Try to delete a non-existent todo (Expect error)
 DELETE {{baseUrl}}/todos/99
 
-### Try to delete a todo with wrong parameter type (Expect error)
+### Try to delete a todo with an incorrect parameter type (Expect error)
 DELETE {{baseUrl}}/todos/three
