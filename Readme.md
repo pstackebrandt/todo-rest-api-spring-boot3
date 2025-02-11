@@ -51,7 +51,7 @@ todo-list-api> ./gradlew bootRun
 You may update build.gradle.kts to change parameters.
 ```
 
-### Run (and build)project with jar file
+### Run (and build) project with jar file
 
 Update the jar file name to the actual one.
 
@@ -91,15 +91,17 @@ Run class e.g. TodoListApiApplicationTests via gui.
 
 ### Build and run docker image with version and name, remove container and image on exit
 
+Attention: Use the project.name and project.version from the application.properties file.
+
 ```powershell
 docker build -t todo-list-api:0.7.0 .
-docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
+docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm todo-list-api:0.7.0
 ```
 
 ### Run docker image with version and name, remove container and image on exit
 
 ```powershell
-docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm --rm todo-list-api:0.7.0
+docker run -p 8080:8080 --name todo-list-api-0.7.0 --rm todo-list-api:0.7.0
 ```
 
 ### Run docker image with version and name
