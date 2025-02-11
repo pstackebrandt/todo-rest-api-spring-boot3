@@ -7,16 +7,24 @@ For VS Code, you can set the environment variables in .vscode/settings.json.
 (Use of a file .httpclient.env.json didn't work.)
 */
 
-### Get all todos
-GET {{baseUrl}}/todos
+# ===== ROOT ENDPOINTS =====
+
+### Get API Base Information (Root Endpoint)
+GET {{baseUrl}}/
 Accept: application/json
+
+### Access Swagger UI
+GET {{baseUrl}}/swagger-ui/index.html
 
 ### Try to call an invalid endpoint (Expect error)
 GET {{baseUrl}}/todowrongendpoint
 Accept: application/json
 
-### Access Swagger UI
-GET {{baseUrl}}/swagger-ui/index.html
+# ===== TODO ENDPOINTS =====
+
+### Get all todos
+GET {{baseUrl}}/todos
+Accept: application/json
 
 ### Get an existing todo (first todo)
 GET {{baseUrl}}/todos/0
