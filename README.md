@@ -1,3 +1,15 @@
+<!--
+  README.template.md
+  ------------------
+  This is the template used to generate README.md.
+  
+  IMPORTANT:
+  • Do NOT modify the generated README.md directly.
+  • To make updates, change this template file.
+  • To regenerate README.md with your changes, run:
+       ./gradlew generateReadme
+-->
+
 # TODO list rest api with Spring Boot 3 from book "Spring Boot 3" by dpunkt
 
 [![Version](https://img.shields.io/badge/version-0.8.2-blue.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/releases) [![Issues](https://img.shields.io/github/issues/pstackebrandt/todo-rest-api-spring-boot3.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/issues)
@@ -15,6 +27,21 @@ This is a simple training project.
 - Use OpenAPI for documentation
 - Publish it in a docker container locally
 - Publish it with Render
+
+## Updating the README file
+
+Do Not Edit README Manually!
+
+The generated README.md is auto-generated from README.template.md via your Gradle tasks.
+Instead of manually changing README.md, you should update README.template.md and then run the appropriate Gradle task to regenerate the README.md with your changes.
+
+```powershell
+todo-list-api> ./gradlew generateReadme
+```
+
+## Updating the Project Version
+
+When you need to update the version, do not change it manually in the generated README or elsewhere in the project. Instead, update the version value in your gradle.properties (or wherever it is configured), and then run the Gradle task (for example, ./gradlew updateVersionNumberUsages) which updates the version in your Dockerfile, badges, and any other files. This way, every reference to the project version remains in sync across your project.
 
 ## Online OpenAPI documentation
 

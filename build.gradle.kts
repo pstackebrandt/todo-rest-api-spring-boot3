@@ -7,6 +7,7 @@ plugins {
 
 group = "com.example"
 version = project.property("version") as String
+project.property("project.slug") as String
 
 java {
 	toolchain {
@@ -57,46 +58,6 @@ tasks.named<ProcessResources>("processResources") {
     }
 }
 
-// Task to update the Dockerfile with the current version from gradle.properties
-tasks.register("updateVersionInDockerfile") {
-    doLast {
-        val dockerFile = file("Dockerfile")
-        if (!dockerFile.exists()) {
-            println("Dockerfile not found!")
-            return@doLast
-        }
-        // Use a regular expression to replace the existing ARG VERSION line with the new version
-        val updatedContent = dockerFile.readText().replace(Regex("ARG\\s+VERSION=.*")) {
-            "ARG VERSION=${project.version}"
-        }
-        dockerFile.writeText(updatedContent)
-        println("Dockerfile updated with version ${project.version}")
-    }
-}
-
-// Task to update a version badge in your README (if you have one)
-tasks.register("updateReadmeVersionBadge") {
-    doLast {
-        val readmeFile = file("Readme.md")
-        if (!readmeFile.exists()) {
-            println("Readme.md not found!")
-            return@doLast
-        }
-        // Updated regex:
-        // - Uses IGNORE_CASE to match [Version] (or [version])
-        // - Matches an optional ".svg" in the suffix
-        val regex = Regex(
-            "(!\\[version\\]\\(https://img\\.shields\\.io/badge/version-)[^-]+(-blue(?:\\.svg)?\\))",
-            RegexOption.IGNORE_CASE
-        )
-        val updatedContent = readmeFile.readText().replace(regex) {
-            "${it.groupValues[1]}${project.version}${it.groupValues[2]}"
-        }
-        readmeFile.writeText(updatedContent)
-        println("Readme.md badge updated with version ${project.version}")
-    }
-}
-
 tasks.register<Copy>("generateReadmeTemp") {
     // Copy the template into a temporary folder.
     from("README.template.md")
@@ -105,6 +66,8 @@ tasks.register<Copy>("generateReadmeTemp") {
     // Do a simple line-by-line replacement.
     filter { line ->
         line.replace("\${project.version}", project.version.toString())
+        .replace("\${project.slug}", project.property("project.slug") as String)
+        .replace("\${project.url}", project.property("project.url") as String)
     }
     outputs.upToDateWhen { false }
 }
@@ -123,7 +86,28 @@ tasks.register("generateReadme") {
     }
 }
 
-// Group task that runs all update scripts
-tasks.register("updateVersionNumberUsages") {
-    dependsOn("updateVersionInDockerfile", "generateReadme")
+tasks.register<Copy>("generateDockerfile") {
+    from("Dockerfile.template")
+    into("$buildDir/generated-dockerfile")
+    rename { "Dockerfile" }
+    filter { line ->
+        line.replace("\${project.version}", project.version.toString())
+            .replace("\${project.slug}", project.property("project.slug") as String)
+    }
+    outputs.upToDateWhen { false }
+
+    doLast {
+        // Copy the generated Dockerfile from the temporary folder to the project root.
+        copy {
+            from("$buildDir/generated-dockerfile/Dockerfile")
+            into(".")
+        }
+        println("Dockerfile generated in the project root with version ${project.version} and project slug ${project.property("project.slug") as String}")
+    }
 }
+
+// Group task that runs all update scripts
+tasks.register("updateReadmeAndDockerfile") {
+    dependsOn("generateReadme", "generateDockerfile")
+}
+
