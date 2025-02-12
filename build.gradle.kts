@@ -97,7 +97,33 @@ tasks.register("updateReadmeVersionBadge") {
     }
 }
 
+tasks.register<Copy>("generateReadmeTemp") {
+    // Copy the template into a temporary folder.
+    from("README.template.md")
+    into("$buildDir/generated-readme")
+    rename { "README.md" }
+    // Do a simple line-by-line replacement.
+    filter { line ->
+        line.replace("\${project.version}", project.version.toString())
+    }
+    outputs.upToDateWhen { false }
+}
+
+tasks.register("generateReadme") {
+    dependsOn("generateReadmeTemp")
+    doLast {
+        // Copy the generated README.md from the temporary folder to the project root.
+        copy {
+            from("$buildDir/generated-readme/README.md")
+            into(".")
+        }
+        val generatedFile = file("README.md")
+        println("Generated README.md size: ${'$'}{generatedFile.length()} bytes")
+        println("README.md generated from README.template.md with version ${project.version}")
+    }
+}
+
 // Group task that runs all update scripts
 tasks.register("updateVersionNumberUsages") {
-    dependsOn("updateVersionInDockerfile", "updateReadmeVersionBadge")
+    dependsOn("updateVersionInDockerfile", "generateReadme")
 }

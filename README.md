@@ -1,6 +1,6 @@
 # TODO list rest api with Spring Boot 3 from book "Spring Boot 3" by dpunkt
 
-[![Version](https://img.shields.io/badge/version-${project.version}-blue.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/releases) [![Issues](https://img.shields.io/github/issues/pstackebrandt/todo-rest-api-spring-boot3.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/issues)
+[![Version](https://img.shields.io/badge/version-0.8.2-blue.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/releases) [![Issues](https://img.shields.io/github/issues/pstackebrandt/todo-rest-api-spring-boot3.svg)](https://github.com/pstackebrandt/todo-rest-api-spring-boot3/issues)
 
 ## Overview
 
@@ -58,7 +58,7 @@ You may update build.gradle.kts to change parameters.
 Update the jar file name to the actual one.
 
 ```powershell
-todo-list-api\build\libs> java -jar .\todo-list-api-${project.version}.jar
+todo-list-api\build\libs> java -jar .\todo-list-api-0.8.2.jar
 ```
 
 ### Run project with vs code
@@ -96,18 +96,18 @@ Run class e.g. TodoListApiApplicationTests via gui.
 Attention: Use the project.name and project.version from the application.properties file.
 
 ```powershell
-docker build -t todo-list-api:${project.version} .
-docker run -p 8080:8080 --name todo-list-api-${project.version} --rm todo-list-api:${project.version}
+docker build -t todo-list-api:0.8.2 .
+docker run -p 8080:8080 --name todo-list-api-0.8.2 --rm todo-list-api:0.8.2
 ```
 
 ### Run docker image with version and name, remove container and image on exit
 
 ```powershell
-docker run -p 8080:8080 --name todo-list-api-${project.version} --rm todo-list-api:${project.version}
+docker run -p 8080:8080 --name todo-list-api-0.8.2 --rm todo-list-api:0.8.2
 ```
 
 ### Run docker image with version and name
 
 ```powershell
-docker run -p 8080:8080 --name todo-list-api-${project.version} todo-list-api:${project.version}
+docker run -p 8080:8080 --name todo-list-api-0.8.2 todo-list-api:0.8.2
 ```
