@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 public final class Todo {
     private static final Logger logger = LoggerFactory.getLogger(Todo.class);
 
-    @NotBlank(message = "Todo description cannot be null or empty")
+    @NotBlank(message = "The todo description cannot be null or empty")
     @Schema(description = "The description of the todo item (required)",
             example = "Buy a linux book")
     private String todo;
@@ -31,8 +31,8 @@ public final class Todo {
 
     public final void setTodo(String todo) {
         if (isEmptyOrNull(todo)) {
-            logger.error("Todo description cannot be null or empty");
-            throw new IllegalArgumentException("Todo description cannot be null or empty");
+            logger.error("The todo description cannot be null or empty");
+            throw new IllegalArgumentException("The todo description cannot be null or empty");
         }
         this.todo = todo;
     }
