@@ -41,7 +41,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseEntity<Map<String, Object>> handleIndexOutOfBounds(IndexOutOfBoundsException ex) {
         logger.error("Global Exception Handler - handleIndexOutOfBounds() : Not Found (Index out of bounds): {}", ex.getMessage());
-        return buildErrorResponse("Not Found", ex.getMessage(), HttpStatus.NOT_FOUND);
+        return buildErrorResponse(
+            "Not Found", 
+            ex.getMessage(), 
+            HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -70,7 +73,7 @@ public class GlobalExceptionHandler {
 
     /**
      * Handles type mismatches for path variables or request parameters.
-     * 
+     *
      * This ensures that if a parameter cannot be converted (for example,
      * "three" to int), a clear Bad Request response is returned instead of an
      * Internal Server Error.
@@ -90,7 +93,9 @@ public class GlobalExceptionHandler {
                 "Invalid value '%s' for parameter '%s'. Expected type is '%s'.",
                 ex.getValue(), ex.getName(), expectedType);
 
-        return buildErrorResponse("Bad Request", message, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(
+            "Bad Request", 
+            message, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -112,7 +117,10 @@ public class GlobalExceptionHandler {
             org.springframework.web.bind.MethodArgumentNotValidException ex
     ) {
         logger.error("Bad Request (Validation error): {}", ex.getMessage());
-        return buildErrorResponse("Bad Request", "Todo description cannot be null or empty", HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(
+                "Bad Request",
+                "The todo description cannot be null or empty", 
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
@@ -120,7 +128,10 @@ public class GlobalExceptionHandler {
             org.springframework.http.converter.HttpMessageNotReadableException ex
     ) {
         logger.error("Bad Request (Invalid JSON): {}", ex.getMessage());
-        return buildErrorResponse("Bad Request", "Invalid request format: Todo description cannot be null or empty", HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(
+                "Bad Request",
+                "Invalid request format: The todo description cannot be null or empty", 
+                HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -135,6 +146,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex
     ) {
         logger.error("Internal Server Error (General exception): {}", ex.getMessage());
-        return buildErrorResponse("Internal Server Error", "An unexpected error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponse(
+            "Internal Server Error", 
+            "An unexpected error occurred.", 
+            HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

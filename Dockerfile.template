@@ -19,8 +19,8 @@
     WORKDIR /app
     
     # Accept the version and project slug arguments.
-    ARG VERSION=0.8.2
-    ARG PROJECT_SLUG=todo-list-api
+    ARG VERSION=${project.version}
+    ARG PROJECT_SLUG=${project.slug}
     
     # Copy the built JAR file from the builder stage into the runtime image.
     COPY --from=builder /app/build/libs/${PROJECT_SLUG}-${VERSION}.jar app.jar
